@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Arts - Animation & Game Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            background-color: #f5f5f5;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #fff;
+            padding: 120px 20px;
+            text-align: center;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1.4;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Navigation */
+        nav {
+            background-color: #fff;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #666;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #333;
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Service Cards */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .service-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        /* News Section */
+        .news-list {
+            background: #fff;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .news-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .news-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .news-item:last-child {
+            border-bottom: none;
+        }
+
+        .news-date {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .news-title {
+            color: #333;
+            font-weight: 500;
+        }
+
+        /* Company Section */
+        .company-content {
+            background: #fff;
+            border-radius: 8px;
+            padding: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .company-intro {
+            margin-bottom: 40px;
+        }
+
+        .company-intro h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .company-intro p {
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .company-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            min-width: 150px;
+            color: #333;
+        }
+
+        .detail-value {
+            color: #666;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-list li {
+            padding: 8px 0;
+            color: #666;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .history-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #333;
+        }
+
+        /* Access Section */
+        .access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .access-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .access-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+        }
+
+        .access-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        /* Sample Animation Section */
+        .sample-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .sample-item {
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            opacity: 0;
+            transform: scale(0.9);
+        }
+
+        .sample-item.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .sample-item:hover {
+            transform: scale(1.05);
+        }
+
+        .sample-placeholder {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .sample-title {
+            padding: 20px;
+            text-align: center;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Footer */
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 0.9rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .company-content {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>We provide business solutions related to animation and games.</h1>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container nav-container">
+            <div class="logo">VISUAL ARTS</div>
+            <ul class="nav-links">
+                <li><a href="#home">HOME</a></li>
+                <li><a href="#service">SERVICE</a></li>
+                <li><a href="#news">NEWS</a></li>
+                <li><a href="#company">COMPANY</a></li>
+                <li><a href="#access">ACCESS</a></li>
+                <li><a href="#animation">ANIMATION</a></li>
+                <li><a href="#contact">CONTACT</a></li>
+                <li><a href="#recruit">RECRUIT</a></li>
+                <li><a href="#blog">BLOG</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Service Section -->
+    <section id="service">
+        <div class="container">
+            <h2 class="section-title">SERVICE</h2>
+            <div class="service-grid">
+                <div class="service-card" data-delay="0">
+                    <h3>Animation</h3>
+                    <p>We produce animations in a variety of genres.</p>
+                </div>
+                <div class="service-card" data-delay="100">
+                    <h3>Game</h3>
+                    <p>We support game development, specializes, and promotion.</p>
+                </div>
+                <div class="service-card" data-delay="200">
+                    <h3>Music & Sound</h3>
+                    <p>We handle music production, sound effects, and recording.</p>
+                </div>
+                <div class="service-card" data-delay="300">
+                    <h3>Event / AR / VR</h3>
+                    <p>We also handle event planning and AR/VR content production.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="news">
+        <div class="container">
+            <h2 class="section-title">NEWS</h2>
+            <div class="news-list">
+                <div class="news-item" data-delay="0">
+                    <span class="news-date">June 12, 2024</span>
+                    <span class="news-title">Website Launched</span>
+                </div>
+                <div class="news-item" data-delay="100">
+                    <span class="news-date">June 10, 2024</span>
+                    <span class="news-title">[Sample] New Game Development Project Started</span>
+                </div>
+                <div class="news-item" data-delay="200">
+                    <span class="news-date">June 5, 2024</span>
+                    <span class="news-title">Notice of Event Exhibition</span>
+                </div>
+                <div class="news-item" data-delay="300">
+                    <span class="news-date">May 30, 2024</span>
+                    <span class="news-title">New Animation Released</span>
+                </div>
+                <div class="news-item" data-delay="400">
+                    <span class="news-date">May 20, 2024</span>
+                    <span class="news-title">Recruitment Page Updated</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Section -->
+    <section id="company">
+        <div class="container">
+            <h2 class="section-title">COMPANY</h2>
+            <div class="company-content">
+                <div class="company-intro">
+                    <h3>A memorable story experience.</h3>
+                    <p>We are engaged in a wide range of production, development, and operation in the entertainment industry.</p>
+                    <p>We provide optimal solutions tailored to our customers' needs.</p>
+                </div>
+                <div class="company-details">
+                    <div>
+                        <h4 style="margin-bottom: 20px; font-size: 1.2rem;">Company Profile</h4>
+                        <div class="detail-item">
+                            <span class="detail-label">Company Name</span>
+                            <span class="detail-value">Visual Arts Inc.</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Location</span>
+                            <span class="detail-value">St. Sample Building, 1-2-3 Sample, Shinagawa, Tokyo</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Established</span>
+                            <span class="detail-value">April 1, 2000</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Representative</span>
+                            <span class="detail-value">Ivan Yamada</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Capital</span>
+                            <span class="detail-value">¥1,234,567B</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Business Activities</span>
+                            <span class="detail-value">Animation production, game development, music production, event planning</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="margin-bottom: 20px; font-size: 1.2rem;">History</h4>
+                        <ul class="history-list">
+                            <li>April 2000: Visual Arts Inc. established</li>
+                            <li>October 2005: Started game development business</li>
+                            <li>July 2010: Established music production department</li>
+                            <li>March 2015: Opened Osaka branch</li>
+                            <li>August 2020: Started AR/VR content production</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Access Section -->
+    <section id="access">
+        <div class="container">
+            <h2 class="section-title">ACCESS</h2>
+            <div class="access-grid">
+                <div class="access-card">
+                    <h3>Head Office</h3>
+                    <p>St. Sample Building, 1-2-3 Sample, Shinagawa, Tokyo</p>
+                    <p>Tel: 03-1234-5678</p>
+                </div>
+                <div class="access-card">
+                    <h3>Osaka Branch</h3>
+                    <p>St. Sample Office 4-5-6 Sample, Chuo-shi, Osaka</p>
+                    <p>Tel: 06-8876-5432</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sample Animation Section -->
+    <section id="animation">
+        <div class="container">
+            <h2 class="section-title">SAMPLE ANIMATION</h2>
+            <div class="sample-grid">
+                <div class="sample-item" data-delay="0">
+                    <div class="sample-placeholder">CHAPTER 01</div>
+                    <div class="sample-title">CHAPTER 01</div>
+                </div>
+                <div class="sample-item" data-delay="100">
+                    <div class="sample-placeholder">CHAPTER 02</div>
+                    <div class="sample-title">CHAPTER 02</div>
+                </div>
+                <div class="sample-item" data-delay="200">
+                    <div class="sample-placeholder">CHAPTER 03</div>
+                    <div class="sample-title">CHAPTER 03</div>
+                </div>
+                <div class="sample-item" data-delay="300">
+                    <div class="sample-placeholder">CHAPTER 04</div>
+                    <div class="sample-title">CHAPTER 04</div>
+                </div>
+                <div class="sample-item" data-delay="400">
+                    <div class="sample-placeholder">CHAPTER 05</div>
+                    <div class="sample-title">CHAPTER 05</div>
+                </div>
+                <div class="sample-item" data-delay="500">
+                    <div class="sample-placeholder">CHAPTER 06</div>
+                    <div class="sample-title">CHAPTER 06</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <p>info@visualarts.co.jp</p>
+            <p style="margin-top: 20px;">View Recruitment Information</p>
+            <p style="margin-top: 20px;">&copy; 2024 Visual Arts Inc. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Observe service cards with staggered animation
+        document.querySelectorAll('.service-card').forEach((card, index) => {
+            const delay = card.getAttribute('data-delay') || 0;
+            card.style.transitionDelay = `${delay}ms`;
+            observer.observe(card);
+        });
+
+        // Observe news items with staggered animation
+        document.querySelectorAll('.news-item').forEach((item, index) => {
+            const delay = item.getAttribute('data-delay') || 0;
+            item.style.transitionDelay = `${delay}ms`;
+            observer.observe(item);
+        });
+
+        // Observe sample items with staggered animation
+        document.querySelectorAll('.sample-item').forEach((item, index) => {
+            const delay = item.getAttribute('data-delay') || 0;
+            item.style.transitionDelay = `${delay}ms`;
+            observer.observe(item);
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
