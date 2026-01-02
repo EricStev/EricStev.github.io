@@ -25,10 +25,46 @@
   </header>
 
   <main class="container" style="margin-top:18px;">
-    <section class="hero visible">
-      <h1>New Test Page</h1>
-      <p>This is your new page content!</p>
-    </section>
+    <div class="page-selector-card">
+      <!-- Dropdown Toggle -->
+      <button class="dropdown-toggle" id="dropdown-toggle">
+        <span id="selected-text">All pages</span>
+        <span class="dropdown-arrow">▼</span>
+      </button>
+
+      <!-- Dropdown Content -->
+      <div class="dropdown-content" id="dropdown-content">
+        <ul class="page-list">
+          <li class="page-item all-pages" data-page="all">
+            <input type="checkbox" class="page-checkbox" id="page-all" checked>
+            <label class="page-label" for="page-all">All pages</label>
+          </li>
+          <li class="page-item" data-page="1">
+            <input type="checkbox" class="page-checkbox" id="page-1">
+            <label class="page-label" for="page-1">Page 1</label>
+          </li>
+          <li class="page-item" data-page="2">
+            <input type="checkbox" class="page-checkbox" id="page-2">
+            <label class="page-label" for="page-2">Page 2</label>
+          </li>
+          <li class="page-item" data-page="3">
+            <input type="checkbox" class="page-checkbox" id="page-3">
+            <label class="page-label" for="page-3">Page 3</label>
+          </li>
+          <li class="page-item" data-page="4">
+            <input type="checkbox" class="page-checkbox" id="page-4">
+            <label class="page-label" for="page-4">Page 4</label>
+          </li>
+        </ul>
+        
+        <div class="selection-summary" id="selection-summary" style="display:none;">
+          <span id="summary-text">0 pages selected</span>
+        </div>
+      </div>
+
+      <!-- Done Button -->
+      <button class="done-button" id="done-button">Done</button>
+    </div>
   </main>
 
   <footer class="container">
