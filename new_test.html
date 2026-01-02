@@ -24,7 +24,7 @@
     </div>
   </header>
 
-  <main class="container" style="margin-top:18px;">
+  <main class="container" style="margin-top:18px; display:flex; flex-direction:column; align-items:center;">
     <div class="page-selector-card">
       <!-- Dropdown Toggle -->
       <button class="dropdown-toggle" id="dropdown-toggle">
@@ -73,6 +73,125 @@
     </p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    // Dropdown functionality
+    const dropdownToggle = document.getElementById('dropdown-toggle');
+    const dropdownContent = document.getElementById('dropdown-content');
+    const selectedText = document.getElementById('selected-text');
+    const doneButton = document.getElementById('done-button');
+    const selectionSummary = document.getElementById('selection-summary');
+    const summaryText = document.getElementById('summary-text');
+    
+    const allPagesCheckbox = document.getElementById('page-all');
+    const pageCheckboxes = document.querySelectorAll('.page-checkbox:not(#page-all)');
+
+    // Toggle dropdown
+    dropdownToggle.addEventListener('click', () => {
+      dropdownToggle.classList.toggle('active');
+      dropdownContent.classList.toggle('active');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.page-selector-card')) {
+        dropdownToggle.classList.remove('active');
+        dropdownContent.classList.remove('active');
+      }
+    });
+
+    // Update button color based on selections
+    function updateButtonColor() {
+      const anyChecked = Array.from(pageCheckboxes).some(cb => cb.checked) || allPagesCheckbox.checked;
+      
+      if (anyChecked) {
+        doneButton.classList.add('has-selection');
+      } else {
+        doneButton.classList.remove('has-selection');
+      }
+    }
+
+    // Update summary text
+    function updateSummary() {
+      const checkedCount = Array.from(pageCheckboxes).filter(cb => cb.checked).length;
+      const allChecked = allPagesCheckbox.checked;
+      
+      if (allChecked) {
+        selectedText.textContent = 'All pages';
+        selectionSummary.style.display = 'block';
+        summaryText.textContent = 'All pages selected';
+      } else if (checkedCount > 0) {
+        selectedText.textContent = `${checkedCount} page${checkedCount > 1 ? 's' : ''} selected`;
+        selectionSummary.style.display = 'block';
+        summaryText.textContent = `${checkedCount} page${checkedCount > 1 ? 's' : ''} selected`;
+      } else {
+        selectedText.textContent = 'Select pages';
+        selectionSummary.style.display = 'none';
+      }
+      
+      updateButtonColor();
+    }
+
+    // Handle "All pages" checkbox
+    allPagesCheckbox.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        pageCheckboxes.forEach(cb => cb.checked = false);
+      }
+      updateSummary();
+    });
+
+    // Handle individual page checkboxes
+    pageCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', (e) => {
+        if (e.target.checked) {
+          allPagesCheckbox.checked = false;
+        }
+        updateSummary();
+      });
+    });
+
+    // Handle clicking on list items (not just checkboxes)
+    document.querySelectorAll('.page-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
+          const checkbox = item.querySelector('.page-checkbox');
+          checkbox.checked = !checkbox.checked;
+          checkbox.dispatchEvent(new Event('change'));
+        }
+      });
+    });
+
+    // Done button action
+    doneButton.addEventListener('click', () => {
+      const selected = [];
+      
+      if (allPagesCheckbox.checked) {
+        selected.push('All pages');
+      } else {
+        pageCheckboxes.forEach((cb, index) => {
+          if (cb.checked) {
+            selected.push(`Page ${index + 1}`);
+          }
+        });
+      }
+      
+      if (selected.length > 0) {
+        alert(`Selected: ${selected.join(', ')}`);
+        // You can add your custom logic here
+        // For example: navigate to another page, save selections, etc.
+      } else {
+        alert('Please select at least one page');
+      }
+    });
+
+    // Initialize
+    updateSummary();
+
+    // Mobile nav (reuse from main script)
+    document.getElementById('nav-toggle').addEventListener('click', ()=>{
+      const mobile = document.getElementById('nav-menu-mobile');
+      const shown = mobile.style.display === 'block';
+      mobile.style.display = shown ? 'none' : 'block';
+    });
+  </script>
 </body>
 </html>
