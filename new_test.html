@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>New Test Page - Eric's Portfolio</title>
   <link rel="stylesheet" href="style.css">
+  <link href='fonts.googleapis.com' rel='stylesheet'>
 </head>
 <body>
   <header>
@@ -36,24 +37,24 @@
       <div class="dropdown-content" id="dropdown-content">
         <ul class="page-list">
           <li class="page-item all-pages" data-page="all">
-            <input type="checkbox" class="page-checkbox" id="page-all" checked>
             <label class="page-label" for="page-all">All pages</label>
+            <input type="checkbox" class="page-checkbox" id="page-all" checked>
           </li>
           <li class="page-item" data-page="1">
-            <input type="checkbox" class="page-checkbox" id="page-1">
             <label class="page-label" for="page-1">Page 1</label>
+            <input type="checkbox" class="page-checkbox" id="page-1">
           </li>
           <li class="page-item" data-page="2">
-            <input type="checkbox" class="page-checkbox" id="page-2">
             <label class="page-label" for="page-2">Page 2</label>
+            <input type="checkbox" class="page-checkbox" id="page-2">
           </li>
           <li class="page-item" data-page="3">
-            <input type="checkbox" class="page-checkbox" id="page-3">
             <label class="page-label" for="page-3">Page 3</label>
+            <input type="checkbox" class="page-checkbox" id="page-3">
           </li>
           <li class="page-item" data-page="4">
-            <input type="checkbox" class="page-checkbox" id="page-4">
             <label class="page-label" for="page-4">Page 4</label>
+            <input type="checkbox" class="page-checkbox" id="page-4">
           </li>
         </ul>
         
@@ -113,9 +114,9 @@
     // Update summary text
     function updateSummary() {
       const checkedCount = Array.from(pageCheckboxes).filter(cb => cb.checked).length;
-      const allChecked = allPagesCheckbox.checked;
-      
-      if (allChecked) {
+      syncAllPagesState();
+    
+      if (allPagesCheckbox.checked) {
         selectedText.textContent = 'All pages';
         selectionSummary.style.display = 'block';
         summaryText.textContent = 'All pages selected';
@@ -127,24 +128,31 @@
         selectedText.textContent = 'Select pages';
         selectionSummary.style.display = 'none';
       }
-      
+    
       updateButtonColor();
     }
 
     // Handle "All pages" checkbox
+    function syncAllPagesState() {
+      const allChecked = Array.from(pageCheckboxes).every(cb => cb.checked);
+      allPagesCheckbox.checked = allChecked;
+    }
+    
     allPagesCheckbox.addEventListener('change', (e) => {
-      if (e.target.checked) {
-        pageCheckboxes.forEach(cb => cb.checked = false);
+      if (!e.target.checked) {
+        const pagesAllChecked = Array.from(pageCheckboxes).every(cb => cb.checked);
+        if (pagesAllChecked) {
+          pageCheckboxes.forEach(cb => cb.checked = false);
+        }
+      } else {
+        pageCheckboxes.forEach(cb => cb.checked = true);
       }
       updateSummary();
     });
-
-    // Handle individual page checkboxes
+    
     pageCheckboxes.forEach(checkbox => {
-      checkbox.addEventListener('change', (e) => {
-        if (e.target.checked) {
-          allPagesCheckbox.checked = false;
-        }
+      checkbox.addEventListener('change', () => {
+        syncAllPagesState();
         updateSummary();
       });
     });
