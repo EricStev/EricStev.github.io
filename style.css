@@ -501,6 +501,7 @@ footer a{ color:var(--text); text-decoration:none; font-weight:700 }
   width: 100%;
   max-width: 400px;
   overflow: hidden;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .page-selector-header {
@@ -660,6 +661,7 @@ footer a{ color:var(--text); text-decoration:none; font-weight:700 }
   color: #4A90E2;
   font-weight: 600;
 }
+
 
 
 
